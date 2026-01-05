@@ -1,0 +1,60 @@
+
+/*
+Theme Name: BMA Capital React Theme
+Theme URI: https://bmacapital.com
+Author: BMA Capital
+Author URI: https://bmacapital.com
+Description: A custom WordPress theme for BMA Capital React application with modern financial services and investment platform.
+Version: 1.0
+Requires at least: 5.0
+Tested up to: 6.1
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: bma-react-theme
+Tags: one-page, custom-colors, custom-menu, custom-logo, editor-style, featured-images, financial, investment
+*/
+
+/* 
+This file is used only for WordPress theme identification.
+All actual styles are loaded through the React application.
+*/
+
+/* Basic WordPress Classes */
+.wp-caption {
+    max-width: 100%;
+}
+
+.wp-caption-text {
+    text-align: center;
+}
+
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+.alignleft {
+    float: left;
+    margin-right: 1.5em;
+}
+
+.alignright {
+    float: right;
+    margin-left: 1.5em;
+}
+
+.aligncenter {
+    clear: both;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

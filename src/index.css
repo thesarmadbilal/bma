@@ -1,0 +1,630 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark theme with intense grey background */
+    --background: 240 5% 11%; /* Dark Charcoal Grey */
+    --foreground: 210 40% 98%;
+
+    --card: 215 33% 13%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 215 33% 13%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Red primary color */
+    --primary: 354 84% 57%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 215 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 215 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 215 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 215 32.6% 22.5%;
+    --input: 215 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
+    /* Financial indicators */
+    --positive: 142 76% 42%;
+    --negative: 0 84% 65%;
+    
+    /* Accent colors */
+    --gold: 45 100% 50%;
+    --silver: 210 20% 75%;
+    --chart-blue: 195 100% 45%;
+    --chart-green: 160 84% 39%;
+  }
+
+  /* Enhanced Light mode theme with better readability and contrast */
+  .light-mode {
+    /* Clean white background with slight warmth */
+    --background: 40 30% 98%;
+    --foreground: 215 25% 15%;
+    
+    /* White card backgrounds with subtle shadow effect */
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+    
+    /* Clean popover styling */
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+    
+    /* Keep red primary color for brand consistency but slightly darker for contrast */
+    --primary: 354 84% 45%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Soft secondary colors with better contrast */
+    --secondary: 216 20% 95%;
+    --secondary-foreground: 215 25% 25%;
+    
+    /* Subtle muted tones with improved readability */
+    --muted: 216 20% 92%;
+    --muted-foreground: 215 20% 40%;
+    
+    /* Accent colors with higher contrast */
+    --accent: 354 84% 95%;
+    --accent-foreground: 354 84% 35%;
+    
+    /* Destructive with better contrast */
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 98%;
+    
+    /* Refined border and input colors */
+    --border: 214 20% 85%;
+    --input: 214 20% 90%;
+    --ring: 215 25% 35%;
+    
+    /* Financial indicators with adjusted contrast */
+    --positive: 142 76% 35%;
+    --negative: 0 84% 50%;
+    
+    /* Accent colors adjusted for light mode */
+    --gold: 45 90% 45%;
+    --silver: 210 25% 60%;
+    --chart-blue: 195 90% 40%;
+    --chart-green: 160 70% 35%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Light theme specific gradients and effects */
+  .light-mode .gradient-red {
+    background: linear-gradient(135deg, hsl(354, 84%, 50%) 0%, hsl(354, 84%, 60%) 100%);
+  }
+  
+  .light-mode .gradient-dark {
+    background: linear-gradient(135deg, hsl(220, 25%, 10%) 0%, hsl(220, 25%, 15%) 100%);
+  }
+  
+  .light-mode .gradient-gray {
+    background: linear-gradient(135deg, hsl(215, 20%, 15%) 0%, hsl(215, 20%, 25%) 100%);
+  }
+  
+  .light-mode .neo-glow {
+    box-shadow: 0 0 15px 2px rgba(234, 56, 76, 0.3);
+  }
+  
+  .light-mode .gold-glow {
+    box-shadow: 0 0 15px 2px hsl(var(--gold) / 30%);
+  }
+  
+  .light-mode .futuristic-border {
+    border: 1px solid rgba(234, 56, 76, 0.4);
+    box-shadow: 0 0 10px 0 rgba(234, 56, 76, 0.2) inset;
+  }
+  
+  .light-mode .text-glow {
+    text-shadow: none;
+    color: hsl(354, 84%, 52%);
+  }
+  
+  .light-mode .text-gold-glow {
+    text-shadow: none;
+    color: hsl(45, 90%, 45%);
+  }
+
+  /* Updated gradients for red/grey theme */
+  .gradient-red {
+    background: linear-gradient(135deg, hsl(354, 84%, 50%) 0%, hsl(354, 84%, 60%) 100%);
+  }
+  
+  .gradient-dark {
+    background: linear-gradient(135deg, hsl(220, 25%, 10%) 0%, hsl(220, 25%, 15%) 100%);
+  }
+  
+  .gradient-gray {
+    background: linear-gradient(135deg, hsl(215, 20%, 15%) 0%, hsl(215, 20%, 25%) 100%);
+  }
+  
+  .neo-glow {
+    box-shadow: 0 0 15px 2px rgba(234, 56, 76, 0.3);
+  }
+  
+  .gold-glow {
+    box-shadow: 0 0 15px 2px hsl(var(--gold) / 30%);
+  }
+  
+  .futuristic-border {
+    border: 1px solid rgba(234, 56, 76, 0.4);
+    box-shadow: 0 0 10px 0 rgba(234, 56, 76, 0.2) inset;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 10px rgba(234, 56, 76, 0.7);
+  }
+  
+  .text-gold-glow {
+    text-shadow: 0 0 10px hsl(var(--gold) / 70%);
+  }
+
+  /* Light mode specific background styles - Fixed to avoid circular dependency */
+  .light-mode .bg-gradient-to-br.from-gray-800,
+  .light-mode .bg-gradient-to-br.from-gray-900,
+  .light-mode .bg-gradient-to-b.from-slate-900 {
+    background-image: linear-gradient(to bottom right, rgb(249 250 251), rgb(255 255 255));
+  }
+  
+  .light-mode .bg-gradient-to-br.from-gray-900.to-gray-800 {
+    background-image: linear-gradient(to bottom right, rgb(255 255 255), rgb(249 250 251));
+  }
+
+  .light-mode .bg-gradient-to-br.from-slate-900.to-slate-800 {
+    background-image: linear-gradient(to bottom right, rgb(250 251 252), rgb(241 245 249));
+  }
+
+  /* Financial-themed data visualization styles */
+  .data-grid {
+    background-image: 
+      linear-gradient(to right, hsl(var(--primary) / 5%) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 5%) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  .market-pulse {
+    position: relative;
+  }
+  
+  .market-pulse::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+    animation: pulse-horizontal 4s infinite;
+  }
+  
+  @keyframes pulse-horizontal {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-ticker {
+  animation: ticker 30s linear infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.8;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.3);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 5s infinite ease-in-out;
+}
+
+@keyframes data-flow {
+  0% {
+    stroke-dashoffset: 20;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-data-flow {
+  animation: data-flow 2s linear infinite;
+}
+
+.chart-grid line {
+  stroke: hsl(var(--border));
+}
+
+.chart-grid path {
+  stroke-width: 0;
+}
+
+.chart-line {
+  fill: none;
+  stroke: hsl(var(--primary));
+  stroke-width: 2px;
+}
+
+.chart-area {
+  fill: url(#gradient);
+  opacity: 0.2;
+}
+
+.futuristic-lines {
+  background-image: radial-gradient(hsl(var(--primary) / 15%) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.hexagon-bg {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L55 20v30L30 65 5 50V20L30 5z' stroke='%231E88E550' fill='none' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+.financial-grid {
+  background-image: 
+    linear-gradient(to right, hsl(var(--border) / 10%) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--border) / 10%) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+}
+
+.terminal-effect {
+  background: linear-gradient(180deg, 
+    hsl(var(--background) / 90%) 0%, 
+    hsl(var(--background)) 100%);
+  box-shadow: 0 0 30px 5px hsl(var(--background));
+  border: 1px solid hsl(var(--primary) / 30%);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.data-point {
+  position: relative;
+}
+
+.data-point::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: hsl(var(--primary));
+  box-shadow: 0 0 8px 2px hsl(var(--primary) / 70%);
+  transform: translate(-50%, -50%);
+}
+
+.ticker-item {
+  @apply bg-card/50 px-4 py-1 rounded-md border border-border/50;
+}
+
+/* Light mode specific styles for better contrast and readability - ENHANCED */
+.light-mode .text-gray-300,
+.light-mode .text-gray-400,
+.light-mode .text-muted-foreground {
+  color: #374151; /* text-gray-700 - darker for better contrast */
+  font-weight: 450; /* Slightly bolder for better readability */
+}
+
+.light-mode .text-white {
+  color: #111827; /* text-gray-900 - darker text for maximum contrast */
+  font-weight: 500; /* Medium weight for emphasis */
+}
+
+.light-mode .text-red-600 {
+  color: #b91c1c; /* text-red-700 */
+  font-weight: 500; /* Medium weight for emphasis */
+}
+
+/* Improved contrast for PSX section in light mode */
+.light-mode .from-slate-900 .text-white,
+.light-mode .from-gray-900 .text-white,
+.light-mode .from-gray-800 .text-white,
+.light-mode .from-slate-900.to-slate-800 .text-white {
+  color: #111827; /* Near-black for maximum contrast */
+  font-weight: 600; /* Semi-bold for metrics and data points */
+}
+
+.light-mode .from-slate-900 .text-xl,
+.light-mode .from-slate-900 .text-2xl,
+.light-mode .from-slate-900 .text-3xl,
+.light-mode .from-gray-900 .text-xl,
+.light-mode .from-gray-900 .text-2xl,
+.light-mode .from-gray-900 .text-3xl,
+.light-mode .from-gray-800 .text-xl,
+.light-mode .from-gray-800 .text-2xl,
+.light-mode .from-gray-800 .text-3xl,
+.light-mode .from-slate-900.to-slate-800 .text-xl,
+.light-mode .from-slate-900.to-slate-800 .text-2xl,
+.light-mode .from-slate-900.to-slate-800 .text-3xl {
+  color: #111827; /* Near-black for maximum contrast */
+  font-weight: 600; /* Semi-bold for headers and important text */
+}
+
+.light-mode .from-slate-900 .text-gray-300,
+.light-mode .from-slate-900 .text-gray-400,
+.light-mode .from-gray-900 .text-gray-300,
+.light-mode .from-gray-900 .text-gray-400,
+.light-mode .from-gray-800 .text-gray-300,
+.light-mode .from-gray-800 .text-gray-400,
+.light-mode .from-slate-900.to-slate-800 .text-gray-300,
+.light-mode .from-slate-900.to-slate-800 .text-gray-400 {
+  color: #374151; /* text-gray-700 - darker for better contrast */
+  font-weight: 450; /* Slightly bolder for better readability */
+}
+
+/* Improved visibility for key metrics in light mode */
+.light-mode .bg-card\/30 .font-bold,
+.light-mode .bg-card\/30 .font-semibold,
+.light-mode .glass-effect .font-bold,
+.light-mode .glass-effect .font-semibold {
+  color: #111827; /* Near-black for important metrics */
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.05); /* Subtle text shadow for depth */
+}
+
+/* Border colors, background styles, shadows, filters, hover states, light mode fixes */
+.light-mode .border-gray-700,
+.light-mode .border-gray-800,
+.light-mode .border-white\/10 {
+  border-color: #e5e7eb; /* border-gray-200 */
+}
+
+.light-mode .bg-white\/5,
+.light-mode .bg-card\/30,
+.light-mode .bg-card\/20 {
+  background-color: rgba(255, 255, 255, 0.8); /* bg-white/80 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+}
+
+.light-mode .backdrop-blur-lg,
+.light-mode .backdrop-blur-md,
+.light-mode .backdrop-blur-sm {
+  backdrop-filter: blur(8px);
+}
+
+.light-mode .shadow-lg,
+.light-mode .shadow-xl {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+/* Improve filter for client logos in light mode */
+.light-mode .filter.grayscale {
+  filter: grayscale(0.7) contrast(0.9);
+}
+
+.light-mode .filter.grayscale.group-hover\:grayscale-0 {
+  filter: grayscale(0) contrast(1);
+}
+
+/* Improve hover states in light mode */
+.light-mode .hover\:bg-red-600:hover {
+  background-color: #b91c1c; /* bg-red-700 */
+  color: #ffffff; /* text-white */
+}
+
+.light-mode .hover\:bg-red-700:hover {
+  background-color: #991b1b; /* bg-red-800 */
+}
+
+.light-mode .hover\:bg-white\/10:hover {
+  background-color: #f3f4f6; /* bg-gray-100 */
+}
+
+.light-mode .hover\:bg-accent:hover {
+  background-color: #f3f4f6; /* bg-gray-100 */
+}
+
+/* Additional fixes for light mode text readability */
+.light-mode .bg-gray-800,
+.light-mode .bg-gray-900,
+.light-mode .bg-card {
+  color: #1f2937; /* text-gray-900 for better contrast on light backgrounds */
+}
+
+.light-mode .bg-gradient-to-br.from-gray-800 p,
+.light-mode .bg-gradient-to-br.from-gray-900 p,
+.light-mode .bg-gradient-to-b.from-slate-900 p {
+  color: #4b5563; /* text-gray-600 for better readability */
+}
+
+.light-mode .bg-gradient-to-br.from-gray-900.to-gray-800 h1,
+.light-mode .bg-gradient-to-br.from-gray-900.to-gray-800 h2,
+.light-mode .bg-gradient-to-br.from-gray-900.to-gray-800 h3,
+.light-mode .bg-gradient-to-br.from-gray-900.to-gray-800 h4 {
+  color: #1f2937; /* text-gray-900 for better contrast */
+}
+
+/* Light mode improvements for glass effects and cards */
+.light-mode .glass-effect {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.light-mode .neo-glow {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(234, 56, 76, 0.2) !important;
+}
+
+/* Roshan Digital Account section styling improvement for light mode */
+.light-mode .international-investing-gradient {
+  background: linear-gradient(to right, #f1f5f9, #ffffff) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.light-mode .international-investing-gradient h2,
+.light-mode .international-investing-gradient h3 {
+  color: #1f2937 !important;
+}
+
+.light-mode .international-investing-gradient p {
+  color: #4b5563 !important;
+}
+
+.light-mode .international-investing-gradient .text-white {
+  color: #1f2937 !important;
+}
+
+.light-mode .market-stats-card {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Special handling for sections with dark backgrounds in light mode */
+.light-mode .bg-gray-900.py-12,
+.light-mode .bg-gray-900.py-16,
+.light-mode .bg-gray-900.py-20 {
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+
+/* Consistent light/dark mode styling for charts and data */
+.light-mode .data-point::after {
+  box-shadow: 0 0 8px 2px rgba(220, 38, 38, 0.4);
+}
+
+.light-mode .chart-grid line {
+  stroke: rgba(0, 0, 0, 0.1);
+}
+
+.light-mode .market-ticker-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Service Offerings alignment fix */
+.service-offering-container {
+  @apply flex flex-col items-center justify-center text-center;
+}
+
+.service-offering-icon {
+  @apply mx-auto mb-4;
+}
+
+.service-offering-title {
+  @apply text-center mt-2;
+}
+
+.accordion-item {
+  margin-bottom: 10px;
+}
+
+.accordion-button {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f9fafb;
+  border-radius: 5px;
+  text-align: left;
+  cursor: pointer;
+  padding: 10px 15px;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+.accordion-button:hover {
+  background-color: #f3f4f6;
+}
+
+.accordion-content {
+  background-color: #fafafa;
+  padding: 15px;
+  border-left: 3px solid #00aaff;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Ensure dropdown stays visible */
+.group:hover .group-hover\:block {
+  display: block;
+}
+
+.group-hover\:block {
+  display: none;
+}
+
+.group {
+  position: relative;
+}
+
+.group .group-hover\:block {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  padding: 8px 0;
+  background-color: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.group .group-hover\:block a {
+  padding: 8px 16px;
+  display: block;
+  text-align: left;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.group .group-hover\:block a:hover {
+  background-color: #f5f5f5;
+}
