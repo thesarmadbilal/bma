@@ -54,27 +54,30 @@ export function MarketDataTab({
         </Button> */}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Right side - Market Data and Resources */}
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
+        {/* Left side: Chart (wider) */}
         <div>
-          <TopMoversCard/>
+          <MarketChart />
         </div>
 
-        {/* Left side - Chart and Market Overview */}
+        {/* Right side: Top Movers (top) + Market Indices (below) */}
+        <div className="flex flex-col gap-6">
+          <TopMoversCard />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6 mt-5">
+        {/* Left side: Chart (wider) */}
         <div>
+        <InvestmentCalculator />
+        </div>
+
+        {/* Right side: Top Movers (top) + Market Indices (below) */}
+        <div className="flex flex-col gap-6">
           <MarketIndicesCard />
         </div>
-
       </div>
 
-      <div>
-        <div className="mt-10">
-          <MarketChart />
-          {/* <MarketMetrics marketStats={marketStats} /> */}
-          {/* <MarketBreadth marketStats={marketStats} /> */}
-          <InvestmentCalculator />
-        </div>
-      </div>
     </>
   );
 }

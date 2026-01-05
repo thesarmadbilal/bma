@@ -75,7 +75,7 @@ export function InvestmentCalculator() {
     <GlassCard className="p-6">
       <div className="flex items-center gap-2 mb-4">
         <Calculator className="h-5 w-5 text-primary" />
-        <h3 className="text-lg font-semibold text-white">Investment Calculator</h3>
+        <h3 className="text-lg text-white font-bold">Investment Calculator</h3>
       </div>
       
       <div className="grid md:grid-cols-2 gap-6">

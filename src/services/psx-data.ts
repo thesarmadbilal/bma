@@ -151,7 +151,10 @@ export const usePSXData = (refreshInterval = 60000) => {
 
 // Helper function to format price with currency symbol
 export const formatPrice = (price: number): string => {
-  return `₨${price}`;
+  return `₨${price.toLocaleString("en-PK", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  })}`;
 };
 
 // Helper function to format percent change with sign

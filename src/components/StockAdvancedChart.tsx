@@ -16,7 +16,7 @@ import { formatPrice } from "@/services/psx-data";
 /* ================= TYPES ================= */
 
 type RawKSEPoint = [number, number, number, number];
-type TimeRange = "1M" | "6M" | "1Y" | "3Y" | "5Y";
+type TimeRange = "1M" | "6M" | "YTD" | "1Y" | "3Y" | "5Y";
 
 interface ChartPoint {
   time: number;
@@ -34,6 +34,8 @@ const getFromDate = (range: TimeRange) => {
       return new Date(now.setMonth(now.getMonth() - 1));
     case "6M":
       return new Date(now.setMonth(now.getMonth() - 6));
+    case "YTD":
+      return new Date(now.getFullYear(), 0, 1);
     case "1Y":
       return new Date(now.setFullYear(now.getFullYear() - 1));
     case "3Y":
@@ -82,13 +84,25 @@ export function StockAdvancedChart({ className }: { className?: string }) {
   const maxValue = Math.max(...chartData.map((d) => d.value));
   const padding = (maxValue - minValue) * 0.05;
 
-  const yDomain: [number, number] = [
-    minValue - padding,
-    maxValue + padding,
-  ];
-  const yTicks = Array.from({ length: 6 }, (_, i) =>
-    Math.round(minValue + ((maxValue - minValue) / 5) * i)
-  );
+  const xTicks = useMemo(() => {
+  if (!chartData.length) return [];
+  if (timeRange === "3Y" || timeRange === "5Y") {
+    // pick first data point of each year
+    const years: Record<number, boolean> = {};
+    return chartData
+      .filter(d => {
+        const y = new Date(d.time * 1000).getFullYear();
+        if (!years[y]) {
+          years[y] = true;
+          return true;
+        }
+        return false;
+      })
+      .map(d => d.time);
+  }
+  return chartData.map(d => d.time); // default: all points
+}, [chartData, timeRange]);
+
 
   const chartConfig = {
   primary: { theme: { light: "#ea384c", dark: "#ea384c" }, label: "KSE-100" },
@@ -107,7 +121,7 @@ export function StockAdvancedChart({ className }: { className?: string }) {
     <div className={`w-full ${className}`}>
       {/* Range Buttons */}
       <div className="flex gap-2 mb-4">
-        {(["1M", "6M", "1Y", "3Y", "5Y"] as TimeRange[]).map((r) => (
+        {(["1M", "6M", "YTD", "1Y", "3Y", "5Y"] as TimeRange[]).map((r) => (
           <Button
             key={r}
             size="sm"
@@ -119,7 +133,7 @@ export function StockAdvancedChart({ className }: { className?: string }) {
         ))}
       </div>
 
-      <div className="bg-black/20 rounded-lg p-4 border border-white/10">
+      <div className="rounded-lg p-4 border border-white/10">
         {/* Header */}
         <div className="flex justify-between mb-4">
           <div>
@@ -149,7 +163,7 @@ export function StockAdvancedChart({ className }: { className?: string }) {
         <div>
           <ChartContainer config={chartConfig}>
             <div style={{ width: "100%", height: "100%" }}>
-            <ResponsiveContainer  width="100%" height="50%">
+            <ResponsiveContainer  width="100%" height="80%">
               <AreaChart
                 data={chartData}
                 style={{aspectRatio: 0}}
@@ -175,13 +189,13 @@ export function StockAdvancedChart({ className }: { className?: string }) {
 
                 <XAxis
                   dataKey="time"
-                  tickMargin={6}
-                  tickFormatter={(ts) =>
-                    new Date(ts * 1000).toLocaleDateString("en-PK", {
-                      day: "2-digit",
-                      month: "short",
-                    })
-                  }
+                  ticks={xTicks}
+                  tickFormatter={(ts) => {
+                    const date = new Date(ts * 1000);
+                    if (timeRange === "3Y" || timeRange === "5Y") return date.getFullYear().toString();
+                    if (timeRange === "YTD") return date.toLocaleDateString("en-PK", { month: "short" });
+                    return date.toLocaleDateString("en-PK", { day: "2-digit", month: "short" });
+                  }}
                 />
 
                 <YAxis/>

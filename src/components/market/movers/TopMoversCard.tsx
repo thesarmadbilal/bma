@@ -29,7 +29,7 @@ export function TopMoversCard() {
     <Card className="bg-card/30 backdrop-blur-sm border border-white/10">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span className="text-lg">Top Movers</span>
+          <span className="text-lg font-bold">Top Movers</span>
           <div className="flex">
             <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
               <TrendingUp className="h-4 w-4" />

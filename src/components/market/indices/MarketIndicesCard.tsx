@@ -41,7 +41,7 @@ export function MarketIndicesCard() {
     <Card className="bg-card/30 backdrop-blur-sm border border-white/10">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span className="text-lg">Market Indices</span>
+          <span className="text-lg font-bold">Market Indices</span>
           <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
             <BarChart4 className="h-4 w-4" />
           </Button>
