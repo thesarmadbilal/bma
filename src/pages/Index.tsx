@@ -26,12 +26,13 @@ const Index = () => {
       <TradingPlatformSection />
       {/* <ServiceOfferings /> */}
       {/* <MarketPerformanceSection /> */}
-      <PakistanStockExchange />
+      
       <InvestmentSectors />
       <LearningResourcesSection />
+      <PakistanStockExchange />
       <InternationalInvesting />
 
-      <section>
+      {/* <section>
         <div className="pt-20"></div>
         <div className="container mx-auto px-2 text-center md:px-6 lg:px-8">
             <Card className="mb-6">
@@ -48,7 +49,7 @@ const Index = () => {
               </CardHeader>
             </Card>
            </div>
-          </section>
+          </section> */}
       {/* <BMATestimonials /> */}
       {/* <CTASection /> */}
       <BMAClientsSection />
