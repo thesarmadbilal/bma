@@ -1,39 +1,75 @@
-
-import React from 'react';
 import { useEffect, useState } from 'react';
-import { BarChart4, ChevronRight, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { BarChart4, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { Button } from '../../ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { LoadingSpinner } from '../LoadingSpinner';
-import { formatPrice, formatPercentChange } from '@/services/psx-data';
+import { API_ENDPOINTS } from '@/services/api-config';
 
+interface IndexData {
+  symbol: string;
+  current: string;
+  change: number;
+  changePercent: string;
+}
 
 export function MarketIndicesCard() {
-  const [stocks, setStocks] = useState([]);
+  const [indices, setIndices] = useState<IndexData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const shuffleArray = (array) => {
-    const shuffled = [...array]; // Copy the original array
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap
-    }
-    return shuffled;
-  }
-  // Duplicate the stock array for smooth infinite scrolling
   useEffect(() => {
-    fetch("https://test.bmacapital.com/backend/")
-      .then((res) => res.json())
-      .then((data) => {
-        const shuffledStocks = shuffleArray(data);
-        //Get random 7 stocks
-        const selectedStocks = shuffledStocks.slice(0, 7);
-        setStocks(selectedStocks);
+    const fetchIndices = async () => {
+      try {
+        const response = await fetch(API_ENDPOINTS.INDICES.OVERVIEW());
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+          console.warn("No data received from API");
+          setIndices([]);
+          setLoading(false);
+          return;
+        }
+
+        const mappedData = data
+          .filter((item) => {
+            const indexName = (item.index || item.col_0 || '').toString().trim();
+            const current = (item.current || item.col_3 || '').toString().trim();
+            return indexName !== '' && current !== '' && current !== '0';
+          })
+          .map((item) => {
+            const indexName = (item.index || item.col_0 || '').toString().trim();
+            const current = (item.current || item.col_3 || '0').toString();
+            const changePercent = (item["%_change"] || item["change_(%)"] || item.col_5 || '0%').toString();
+            const changeValue = parseFloat(changePercent.replace(/[%,\s]/g, '')) || 0;
+
+            return {
+              symbol: indexName,
+              current: current,
+              change: changeValue,
+              changePercent: changePercent
+            };
+          })
+          .sort((a, b) => {
+            const aValue = parseFloat(a.current.replace(/,/g, '')) || 0;
+            const bValue = parseFloat(b.current.replace(/,/g, '')) || 0;
+            return bValue - aValue;
+          })
+          .slice(0, 6); // Get top 5 indices
+
+        setIndices(mappedData);
+      } catch (err) {
+        console.error("Error fetching indices data:", err);
+        setIndices([]);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error A gya:", err);
-      });
+      }
+    };
+
+    fetchIndices();
   }, []);
 
 
@@ -51,25 +87,29 @@ export function MarketIndicesCard() {
         <div className="space-y-1 px-6">
           {loading ? (
             <LoadingSpinner />
-          ) : (
-            stocks.map((index, idx) => (
-              <div key={index.symbol} className={`flex justify-between items-center py-3 ${idx !== stocks.length - 1 ? "border-b border-white/5" : ""}`}>
+          ) : indices.length > 0 ? (
+            indices.map((index, idx) => (
+              <div key={index.symbol} className={`flex justify-between items-center py-3 ${idx !== indices.length - 1 ? "border-b border-white/5" : ""}`}>
                 <div>
                   <div className="font-medium text-white">{index.symbol}</div>
-                  <div className="text-xs text-gray-400">Vol: {index.volume}</div>
+                  <div className="text-xs text-gray-400">Index Value</div>
                 </div>
                 <div className="text-right">
                   <div className="font-bold text-white">{index.current}</div>
                   <div className={index.change >= 0 ? "text-positive flex items-center justify-end text-sm" : "text-negative flex items-center justify-end text-sm"}>
                     {index.change >= 0 ? (
-                      <><ArrowUpRight className="h-3 w-3 mr-0.5" /> +{index.change} ({index["change_(%)"]})</>
+                      <><ArrowUpRight className="h-3 w-3 mr-0.5" /> +{index.change.toFixed(2)}%</>
                     ) : (
-                      <><ArrowDownRight className="h-3 w-3 mr-0.5" /> {index.change} ({index["change_(%)"]})</>
+                      <><ArrowDownRight className="h-3 w-3 mr-0.5" /> {index.change.toFixed(2)}%</>
                     )}
                   </div>
                 </div>
               </div>
             ))
+          ) : (
+            <div className="py-4 text-center text-gray-400 text-sm">
+              No indices data available
+            </div>
           )}
         </div>
       </CardContent>
