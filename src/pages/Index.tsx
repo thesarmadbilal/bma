@@ -24,34 +24,11 @@ const Index = () => {
       <MarketTicker />
       <NewHeroSection />
       <TradingPlatformSection />
-      {/* <ServiceOfferings /> */}
-      {/* <MarketPerformanceSection /> */}
       
       <InvestmentSectors />
       <LearningResourcesSection />
       <PakistanStockExchange />
       <InternationalInvesting />
-
-      {/* <section>
-        <div className="pt-20"></div>
-        <div className="container mx-auto px-2 text-center md:px-6 lg:px-8">
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle className="text-2xl">Live Stocks and Charts </CardTitle>
-                <CardDescription >
-                  <span className="text-2xl text-yellow-300 px-20 animate-pulse">Coming Soon</span>
-                  </CardDescription>
-                <div className="mt-4">
-          
-        </div>
-
-              
-              </CardHeader>
-            </Card>
-           </div>
-          </section> */}
-      {/* <BMATestimonials /> */}
-      {/* <CTASection /> */}
       <BMAClientsSection />
       <div className="pt-8"></div>
       <MarketTicker />

@@ -117,7 +117,7 @@ export const Footer = () => {
         <div className={`mt-6 p-4 rounded-lg text-xs text-center ${theme === 'dark' ? 'bg-gray-800/50 text-gray-400' : 'bg-gray-200 text-gray-600'}`}>
           DISCLAIMER: Every investment in securities/commodities involves risk including the possible loss of principal amount invested. BMA Capital Management Ltd. does not guarantee any returns or profits on investments made. Past performance is not indicative of future returns.
         </div>
-        <div className="mt-6 flex justify-center"> <img src="/lovable-uploads/SECP.jpg" alt="Securities & Exchange Commission of Pakistan (SECP) Investor Complaint Banner" className="w-full max-w-7xl" /> </div>
+        <div className="mt-6 flex justify-center"> <img src="/lovable-uploads/SECP.jpg" alt="Securities & Exchange Commission of Pakistan (SECP) Investor Complaint Banner" className="w-100 h-100" /> </div>
       </div>
     </footer>
   );

@@ -33,7 +33,7 @@ export default function BusinessActivities() {
         >
           <ServiceShowcase />
           {/* <ServiceCategories /> */}
-          <ServiceExplorer />
+          {/* <ServiceExplorer /> */}
           {/* <ClientStories /> */}
           <ServiceAssessment />
           <FAQSection />

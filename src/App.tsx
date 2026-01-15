@@ -17,6 +17,7 @@ import Glossary from "./pages/Glossary";
 import Contact from "./pages/Contact";
 import Faq from "./pages/Faq";
 import Guide from "./pages/Guide";
+import Coming from "./pages/Coming";
 
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
             <Route path="/guide" element={<Guide />} />
             <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/coming" element={<Coming />} />
           </Routes>
         </BrowserRouter>
         {/* <ChatbotIcon /> */}

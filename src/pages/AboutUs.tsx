@@ -17,38 +17,26 @@ export default function AboutUs() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
-      
-      <AboutHeroCreative />
-      
       <section className="relative">
         <SvgWaveDivider position="top" waveType="wave2" height={24} />
         <MissionVisionSection />
       </section>
-      
-
       <section className="py-12 md:py-16" id="glance">
-  <div className="container bg-background mx-auto px-4">
-    <div className="shadow-xl rounded-lg overflow-hidden">
-      <img
-        src="/lovable-uploads/BMA-Glance.jpg"
-        alt="Descriptive text for the image"
-        className="w-full h-auto object-contain" 
-      />
+      <div className="container bg-background mx-auto px-4">
+        <div className="shadow-xl rounded-lg overflow-hidden">
+          <img
+            src="/lovable-uploads/BMA-Glance.jpg"
+            alt="Descriptive text for the image"
+            className="w-full h-auto object-contain" 
+          />
     </div>
   </div>
 </section>
-      
       <TeamShowcase />
       <AchievementsTimeline />
-      
       <OfficeLocations />
-      
-      <section className="relative">
-       
-      </section>
-      
-      {/* <CallToAction /> */}
-      
+      <section className="relative"> 
+      </section>  
       <Footer />
     </div>
   );

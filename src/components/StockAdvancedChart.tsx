@@ -149,12 +149,27 @@ export function StockAdvancedChart({ className }: { className?: string }) {
                 isPositive ? "text-green-400" : "text-red-400"
               }`}
             >
+             {chartData.length > 1 && (() => {
+  const last = chartData.at(-1).value;
+  const secondLast = chartData.at(-2).value;
+  
+  // Guard against division by zero
+  if (secondLast === 0) return "0.00%"; 
+
+  const percentChange = ((last - secondLast) / secondLast) * 100;
+  
+  return `${percentChange.toFixed(2)}%`;
+})()}
+            </div>
+
+            <div
+              className={`text-lg font-medium ${
+                isPositive ? "text-green-400" : "text-red-400"
+              }`}
+            >
               {chartData.length > 1 &&
-                `${(
-                  ((chartData.at(-1)!.value - chartData[0].value) /
-                    chartData[0].value) *
-                  100
-                ).toFixed(2)}%`}
+                `${
+                 (chartData.at(-1)!.value - chartData.at(-2)!.value).toFixed(2)}`}
             </div>
           </div>
         </div>

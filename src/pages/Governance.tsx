@@ -19,27 +19,12 @@ export default function Governance() {
         <GovernanceHeader />
 
         <div className="space-y-16">
-          {/* Overview Section */}
           <GovernanceOverview />
-
           <Separator className="my-8" />
-
-          {/* Board of Directors Section */}
           <BoardOfDirectors />
-
           <Separator className="my-8" />
-
-          {/* Committees Section */}
           <BoardCommittees />
-
           <Separator className="my-8" />
-
-          {/* Shareholding Pattern Section */}
-          {/* <ShareholdingPattern /> */}
-
-          {/* <Separator className="my-8" /> */}
-
-          {/* Agent Details Section */}
           <AgentDetails />
         </div>
       </main>

@@ -236,39 +236,10 @@ export function InternationalInvesting() {
               </div>
             </div>
             
-            {/* Floating elements */}
-            <motion.div 
-              initial={{ y: 0 }}
-              animate={{ y: [-10, 10, -10] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className={`absolute -top-12 right-12 ${theme === 'dark' ? 'bg-gradient-to-br from-red-500/80 to-red-600/80' : 'bg-gradient-to-br from-red-500 to-red-600'} p-3 rounded-lg shadow-xl backdrop-blur-sm`}
-            >
-              <Globe className="h-8 w-8 text-white" />
-            </motion.div>
             
-            <motion.div 
-              initial={{ y: 0 }}
-              animate={{ y: [5, -5, 5] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-              className={`absolute -bottom-8 -left-4 ${theme === 'dark' ? 'bg-gradient-to-br from-red-600/80 to-red-700/80' : 'bg-gradient-to-br from-red-600 to-red-700'} px-4 py-2 rounded-lg shadow-xl backdrop-blur-sm`}
-            >
-              <div className="flex items-center gap-2">
-                <DollarSign className="h-4 w-4 text-white" />
-                <span className="text-sm font-medium text-white">Multi-Currency</span>
-              </div>
-            </motion.div>
+           
             
-            <motion.div 
-              initial={{ y: 0, opacity: 0.8 }}
-              animate={{ y: [-7, 7, -7], opacity: [0.8, 1, 0.8] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 0.5 }}
-              className={`absolute top-1/4 -right-8 ${theme === 'dark' ? 'bg-gradient-to-br from-red-600/70 to-red-700/70' : 'bg-gradient-to-br from-red-600 to-red-700'} p-2 rounded-lg shadow-xl backdrop-blur-sm`}
-            >
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-white" />
-                <span className="text-sm font-medium text-white">Pakistan</span>
-              </div>
-            </motion.div>
+            
           </motion.div>
         </div>
       </div>
@@ -279,19 +250,7 @@ export function InternationalInvesting() {
       <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-gray-900 to-transparent pointer-events-none"></div>
       <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-gray-900 to-transparent pointer-events-none"></div>
       
-      {/* Decorative glowing elements */}
-      <motion.div 
-        initial={{ opacity: 0.3 }}
-        animate={{ opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className={`absolute bottom-0 left-0 w-96 h-96 ${theme === 'dark' ? 'bg-red-600/10' : 'bg-red-200/30'} rounded-full blur-3xl`}
-      ></motion.div>
-      <motion.div 
-        initial={{ opacity: 0.3 }}
-        animate={{ opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 4, delay: 2, repeat: Infinity, ease: "easeInOut" }}
-        className={`absolute top-1/4 right-1/4 w-96 h-96 ${theme === 'dark' ? 'bg-red-600/10' : 'bg-red-100/30'} rounded-full blur-3xl`}
-      ></motion.div>
+     
     </section>
   );
 }
