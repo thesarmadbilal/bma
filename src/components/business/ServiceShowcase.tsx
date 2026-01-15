@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { services } from '@/components/hero/services';
 import { ServiceCard } from '@/components/business/ServiceCard';
@@ -10,9 +11,61 @@ import { FilterIcon, Grid3X3, List } from 'lucide-react';
 
 export function ServiceShowcase() {
   const { theme } = useTheme();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [filter, setFilter] = useState<string | null>(null);
+  
+  // Get service filter from URL or default to null
+  const urlServiceId = searchParams.get('service');
+  const [filter, setFilter] = useState<string | null>(urlServiceId);
+  const prevUrlServiceId = React.useRef<string | null>(urlServiceId);
+  const isManualChange = React.useRef(false);
+
+  // Handle URL-based service filtering (from footer links)
+  useEffect(() => {
+    const serviceId = searchParams.get('service');
+    
+    // Only update if URL param changed and it wasn't a manual change
+    if (serviceId !== prevUrlServiceId.current && !isManualChange.current) {
+      prevUrlServiceId.current = serviceId;
+      
+      if (serviceId) {
+        setFilter(serviceId);
+        
+        // Auto-open service detail when coming from URL
+        if (services.find(s => s.id === serviceId)) {
+          setTimeout(() => {
+            setSelectedService(serviceId);
+          }, 300);
+        }
+      } else {
+        setFilter(null);
+        setSelectedService(null);
+      }
+    }
+    
+    // Reset manual change flag after processing
+    if (isManualChange.current) {
+      isManualChange.current = false;
+    }
+  }, [searchParams]);
+
+  // Handle manual filter changes
+  const handleFilterChange = (serviceId: string | null) => {
+    isManualChange.current = true;
+    setFilter(serviceId);
+    setSelectedService(null); // Don't auto-open on manual selection
+    
+    // Update URL to reflect manual selection
+    const newParams = new URLSearchParams(searchParams);
+    if (serviceId) {
+      newParams.set('service', serviceId);
+    } else {
+      newParams.delete('service');
+    }
+    setSearchParams(newParams, { replace: true });
+    prevUrlServiceId.current = serviceId;
+  };
   
   const filteredServices = filter 
     ? services.filter(service => service.id === filter)
@@ -47,7 +100,7 @@ export function ServiceShowcase() {
           <Button 
             variant={filter === null ? "default" : "outline"} 
             size="sm"
-            onClick={() => setFilter(null)}
+            onClick={() => handleFilterChange(null)}
           >
             All Services
           </Button>
@@ -56,7 +109,7 @@ export function ServiceShowcase() {
               key={service.id}
               variant={filter === service.id ? "default" : "outline"}
               size="sm"
-              onClick={() => setFilter(service.id)}
+              onClick={() => handleFilterChange(service.id)}
             >
               {service.title}
             </Button>

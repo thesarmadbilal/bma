@@ -11,8 +11,11 @@ import { ClientStories } from '@/components/business/ClientStories';
 import { ServiceAssessment } from '@/components/business/ServiceAssessment';
 import { FAQSection } from '@/components/business/FAQSection';
 import { CTASection } from '@/components/CTASection';
+import { useHashNavigation } from '@/hooks/useHashNavigation';
 
 export default function BusinessActivities() {
+  // Handle hash-based scrolling
+  useHashNavigation();
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       <Navbar />

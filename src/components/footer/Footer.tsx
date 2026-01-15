@@ -31,12 +31,12 @@ export const Footer = () => {
     services: {
       title: "Business Activities",
       links: [
-        { label: "Equities", href: "/business-activities#services" },
-        { label: "Investment Banking", href: "/business-activities#services" },
-        { label: "Investment Advisory", href: "/business-activities/" },
-        { label: "Commodities", href: "/business-activities/" },
-        { label: "Money Market/Forex", href: "/business-activities/" },
-        { label: "Research", href: "/business-activities/" },
+        { label: "Equities", href: "/business-activities?service=equities#services" },
+        { label: "Investment Banking", href: "/business-activities?service=investment-banking#services" },
+        { label: "Investment Advisory", href: "/business-activities?service=investment-advisory#services" },
+        { label: "Commodities", href: "/business-activities?service=commodities#services" },
+        { label: "Money Market/Forex", href: "/business-activities?service=forex#services" },
+        { label: "Research", href: "/business-activities?service=research#services" },
       ]
     },
     markets: {
