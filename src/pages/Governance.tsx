@@ -9,8 +9,11 @@ import { BoardCommittees } from '@/components/governance/BoardCommittees';
 import { ShareholdingPattern } from '@/components/governance/ShareholdingPattern';
 import { AgentDetails } from '@/components/governance/AgentDetails';
 import { Footer } from '@/components/footer/Footer';
+import { useHashNavigation } from '@/hooks/useHashNavigation';
 
 export default function Governance() {
+  // Handle hash-based scrolling
+  useHashNavigation();
   return (
     <div className="min-h-screen bg-background">
       <Navbar />

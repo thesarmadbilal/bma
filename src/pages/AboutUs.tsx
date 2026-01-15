@@ -12,8 +12,11 @@ import { AchievementsTimeline } from "@/components/about/AchievementsTimeline";
 import { OfficeLocations } from "@/components/about/OfficeLocations";
 import { TestimonialsCarousel } from "@/components/about/TestimonialsCarousel";
 import { CallToAction } from "@/components/about/CallToAction";
+import { useHashNavigation } from "@/hooks/useHashNavigation";
 
 export default function AboutUs() {
+  // Handle hash-based scrolling
+  useHashNavigation();
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
