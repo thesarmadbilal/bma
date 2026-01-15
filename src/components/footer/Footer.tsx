@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from '@/components/theme/ThemeProvider';
 import { FooterContact } from './FooterContact';
@@ -108,7 +109,7 @@ export const Footer = () => {
           </div>
           
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="/disclaimer" className={`text-sm ${theme === 'dark' ? 'text-muted-foreground hover:text-red-600' : 'text-gray-600 hover:text-red-700'} transition-colors`}>Disclaimer</a>
+            <Link to="/disclaimer" className={`text-sm ${theme === 'dark' ? 'text-muted-foreground hover:text-red-600' : 'text-gray-600 hover:text-red-700'} transition-colors`}>Disclaimer</Link>
             
             {/* <a href="#" className={`text-sm ${theme === 'dark' ? 'text-muted-foreground hover:text-red-600' : 'text-gray-600 hover:text-red-700'} transition-colors`}>Sitemap</a> */}
           </div>
