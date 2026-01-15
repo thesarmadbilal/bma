@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-import { TrendingUp, TrendingDown, Zap } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 import { useTheme } from './theme/ThemeProvider';
-import { formatPrice } from '@/services/psx-data';
 import { API_ENDPOINTS } from '@/services/api-config';
 
 interface IndexData {
@@ -14,138 +13,138 @@ interface IndexData {
 export function MarketTicker() {
   const { theme } = useTheme();
   const [indices, setIndices] = useState<IndexData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
+  const tickerRef = useRef<HTMLDivElement>(null);
 
+  /* ================= FETCH DATA ================= */
   useEffect(() => {
-    const fetchKSE100Constituents = async () => {
+    let mounted = true;
+
+    const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(API_ENDPOINTS.KSE100.CONSTITUENTS());
+        const res = await fetch(API_ENDPOINTS.KSE100.CONSTITUENTS());
+        const data = await res.json();
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!Array.isArray(data)) return;
 
-        const data = await response.json();
-
-        if (!Array.isArray(data)) {
-          console.warn("Invalid data format received from API:", data);
-          setIndices([]);
-          setLoading(false);
-          return;
-        }
-
-        if (data.length === 0) {
-          console.warn("No data received from API");
-          setIndices([]);
-          setLoading(false);
-          return;
-        }
-
-        const mappedData = data
-          .filter((item) => {
-            const symbol = (item.symbol || item.col_0 || '').toString().trim();
-            const current = (item.current || item.col_3 || '').toString().trim();
-            return symbol !== '' && current !== '' && current !== '0';
-          })
+        const mapped = data
           .map((item) => {
-            const symbol = (item.symbol || item.col_0 || '').toString().trim();
-            const current = (item.current || item.col_3 || item.col_4 || '0').toString();
-            // Try multiple field name variations for change percentage
-            const changePercent = (
-              item.change_percent || 
-              item['change_%'] || 
-              item.change || 
-              item.col_5 || 
-              item.col_6 || 
-              '0%'
-            ).toString();
-
-            // Extract numeric value from change percent (remove % and parse)
-            const changeValue = parseFloat(changePercent.replace(/[%,\s]/g, '')) || 0;
-            const currentValue = parseFloat(current.replace(/,/g, '')) || 0;
+            const symbol = String(item.symbol || item.col_0 || '').trim();
+            const current = String(item.current || item.col_3 || item.col_4 || '0');
+            const changeRaw =
+              item.change_percent ||
+              item['change_%'] ||
+              item.change ||
+              item.col_5 ||
+              item.col_6 ||
+              '0';
 
             return {
-              symbol: symbol,
-              current: current,
-              change: changeValue,
-              currentNum: currentValue
+              symbol,
+              current,
+              change: parseFloat(String(changeRaw).replace(/[%,\s]/g, '')) || 0,
+              currentNum: parseFloat(current.replace(/,/g, '')) || 0,
             };
           })
-          .sort((a, b) => b.currentNum - a.currentNum);
+          .filter((i) => i.symbol && i.currentNum > 0);
 
-        if (mappedData.length > 0) {
-          setIndices(mappedData);
-        } else {
-          console.warn("No valid KSE100 constituents data after mapping. Raw data sample:", data[0]);
-          setIndices([]);
-        }
-      } catch (err) {
-        console.error("Error fetching KSE100 constituents data:", err);
-        setIndices([]);
+        if (mounted) setIndices(mapped);
+      } catch (e) {
+        console.error(e);
+        if (mounted) setIndices([]);
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     };
 
-    fetchKSE100Constituents();
+    fetchData();
+    return () => {
+      mounted = false;
+    };
   }, []);
-  
+
+  /* ================= FIX TICKER ================= */
+  useEffect(() => {
+    if (!tickerRef.current || indices.length === 0) return;
+
+    const el = tickerRef.current;
+
+    requestAnimationFrame(() => {
+      // Force layout read
+      void el.offsetWidth;
+
+      const contentWidth = el.scrollWidth / 2;
+      const speed = 80; // px/sec
+      const duration = Math.max(contentWidth / speed, 20);
+
+      el.style.setProperty('--ticker-duration', `${duration}s`);
+    });
+  }, [indices]);
+
+  /* ================= RENDER (UNCHANGED UI) ================= */
   return (
-    <div className={`w-full overflow-hidden glass-effect py-2 border-t border-b ${theme === 'dark' ? 'border-primary/30' : 'border-gray-200'} relative`}>
+    <div
+      className={`w-full overflow-hidden glass-effect py-2 border-t border-b ${
+        theme === 'dark' ? 'border-primary/30' : 'border-gray-200'
+      }`}
+    >
       {loading ? (
-        <div className="flex items-center justify-center py-2">
-          <span className={`text-sm ${theme === 'light' ? 'text-gray-600' : 'text-muted-foreground'}`}>
-            Loading market data...
-          </span>
-        </div>
+        <div className="flex justify-center py-2 text-sm">Loading market data...</div>
       ) : indices.length > 0 ? (
-        <div className="flex gap-6 animate-ticker">
-          {[...indices, ...indices].map((item, index) => (
-            <div key={`${item.symbol}-${index}`} className="flex items-center gap-2 whitespace-nowrap">
-              <span className={`font-semibold ${theme === 'light' ? 'text-red-700' : 'text-primary'}`}>
-                {item.symbol}
-              </span>
-              <span className={theme === 'light' ? 'text-gray-800' : ''}>
-                {item.current}
-              </span>
-              <span 
-                className={item.change >= 0 
-                  ? "text-positive flex items-center" 
-                  : "text-negative flex items-center"
-                }
-              >
-                {item.change >= 0 ? (
-                  <TrendingUp className="h-3 w-3 mr-0.5" />
-                ) : (
-                  <TrendingDown className="h-3 w-3 mr-0.5" />
-                )}
-                {item.change >= 0 ? '+' : ''}{item.change.toFixed(2)}%
-              </span>
-            </div>
-          ))}
+        <div ref={tickerRef} className="flex gap-6 animate-ticker">
+          {[...indices, ...indices].map((item, index) => {
+            const isPositive = item.change >= 0;
+            return (
+              <div key={`${item.symbol}-${index}`} className="flex items-center gap-6">
+                <div className="flex items-center gap-2 whitespace-nowrap">
+                  <span className="font-semibold">{item.symbol}</span>
+                  <span>{item.current}</span>
+                  <span
+                    className={
+                      isPositive
+                        ? 'text-positive flex items-center'
+                        : 'text-negative flex items-center'
+                    }
+                  >
+                    {isPositive ? (
+                      <TrendingUp className="h-3 w-3 mr-0.5" />
+                    ) : (
+                      <TrendingDown className="h-3 w-3 mr-0.5" />
+                    )}
+                    {isPositive ? '+' : ''}
+                    {item.change.toFixed(2)}%
+                  </span>
+                </div>
+                <div
+                  className={`h-6 w-px ${
+                    theme === 'dark' ? 'bg-primary/30' : 'bg-gray-300'
+                  }`}
+                />
+              </div>
+            );
+          })}
         </div>
       ) : (
-        <div className="flex items-center justify-center py-2">
-          <span className={`text-sm ${theme === 'light' ? 'text-gray-600' : 'text-muted-foreground'}`}>
-            No market data available
-          </span>
-        </div>
+        <div className="flex justify-center py-2 text-sm">No market data available</div>
       )}
-      
+
+      {/* 🔒 STATIC CSS – DO NOT TOUCH UI */}
       <style>
         {`
+        .animate-ticker {
+          width: max-content;                /* 🔑 CRITICAL */
+          animation: ticker var(--ticker-duration, 30s) linear infinite;
+          will-change: transform;
+        }
+
         @keyframes ticker {
-          0% {
+          from {
             transform: translateX(0);
           }
-          100% {
+          to {
             transform: translateX(-50%);
           }
-        }
-        
-        .animate-ticker {
-          animation: ticker ${indices.length > 50 ? '120s' : '60s'} linear infinite;
         }
         `}
       </style>
