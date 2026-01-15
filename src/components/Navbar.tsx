@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
@@ -16,6 +16,33 @@ import { NavigationMenuList } from "./ui/navigation-menu";
 
 export function Navbar() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const handleMouseEnter = (dropdownId: string) => {
+    // Clear any pending close timeout
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setOpenDropdown(dropdownId);
+  };
+  
+  const handleMouseLeave = () => {
+    // Delay closing the dropdown
+    closeTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 1000); // 600ms delay before closing
+  };
+  
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -35,7 +62,11 @@ export function Navbar() {
           <NavigationMenu className="max-w-none">
             <NavigationMenuList>
               {/* Business Activities Dropdown */}
-              <NavigationMenuItem className="group relative max-w-none">
+              <NavigationMenuItem 
+                className="group relative max-w-none"
+                onMouseEnter={() => handleMouseEnter('business-activities')}
+                onMouseLeave={handleMouseLeave}
+              >
                 <NavigationMenuTrigger>
                   <Link
                     to="/business-activities"
@@ -44,39 +75,46 @@ export function Navbar() {
                     Business Activities
                   </Link>
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="absolute left-0 top-full z-50 mt-1 hidden min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg group-hover:flex">
+                <NavigationMenuContent 
+                  className={cn(
+                    "absolute left-0 top-full z-50 mt-1 min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg transition-opacity duration-200",
+                    openDropdown === 'business-activities' ? "flex opacity-100" : "hidden opacity-0"
+                  )}
+                  onMouseEnter={() => handleMouseEnter('business-activities')}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <Link
-                    to="/business-activities"
+                    to="/business-activities?service=equities#services"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Equities
                   </Link>
                   <Link
-                    to="/business-activities"
+                    to="/business-activities?service=investment-banking#services"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
-                    Investment Bank
+                    Investment Banking
                   </Link>
                   <Link
-                    to="/business-activities"
+                    to="/business-activities?service=investment-advisory#services"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Investment Advisory
                   </Link>
                   <Link
-                    to="/business-activities"
+                    to="/business-activities?service=commodities#services"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Commodities
                   </Link>
                   <Link
-                    to="/business-activities"
+                    to="/business-activities?service=forex#services"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Money Market/Forex
                   </Link>
                   <Link
-                    to="/business-activities#research"
+                    to="/business-activities?service=research#services"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Research
@@ -85,7 +123,11 @@ export function Navbar() {
               </NavigationMenuItem>
 
               {/* Governance Dropdown */}
-              <NavigationMenuItem className="group relative max-w-none">
+              <NavigationMenuItem 
+                className="group relative max-w-none"
+                onMouseEnter={() => handleMouseEnter('governance')}
+                onMouseLeave={handleMouseLeave}
+              >
                 <NavigationMenuTrigger>
                   <Link
                     to="/governance"
@@ -94,9 +136,16 @@ export function Navbar() {
                     Governance
                   </Link>
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="absolute left-0 top-full z-50 mt-1 hidden min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg group-hover:flex">
+                <NavigationMenuContent 
+                  className={cn(
+                    "absolute left-0 top-full z-50 mt-1 min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg transition-opacity duration-200",
+                    openDropdown === 'governance' ? "flex opacity-100" : "hidden opacity-0"
+                  )}
+                  onMouseEnter={() => handleMouseEnter('governance')}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <Link
-                    to="/about/#board"
+                    to="/governance#board"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Board of Directors
@@ -120,7 +169,7 @@ export function Navbar() {
                     Details of Sponsor
                   </Link>
                   <Link
-                    to="/coming"
+                    to="/governance#agent"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Agent Details
@@ -141,7 +190,11 @@ export function Navbar() {
               </NavigationMenuItem>
 
               {/* Investor's Corner Dropdown */}
-              <NavigationMenuItem className="group relative">
+              <NavigationMenuItem 
+                className="group relative"
+                onMouseEnter={() => handleMouseEnter('investors')}
+                onMouseLeave={handleMouseLeave}
+              >
                 <NavigationMenuTrigger>
                   <Link
                     to="/investors"
@@ -150,7 +203,14 @@ export function Navbar() {
                     Investor's Corner
                   </Link>
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="absolute left-0 top-full z-50 mt-1 hidden min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg group-hover:flex">
+                <NavigationMenuContent 
+                  className={cn(
+                    "absolute left-0 top-full z-50 mt-1 min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg transition-opacity duration-200",
+                    openDropdown === 'investors' ? "flex opacity-100" : "hidden opacity-0"
+                  )}
+                  onMouseEnter={() => handleMouseEnter('investors')}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <Link
                     to="/investors"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -173,7 +233,11 @@ export function Navbar() {
               </NavigationMenuItem>
 
               {/* About Us Dropdown */}
-              <NavigationMenuItem className="group relative max-w-none">
+              <NavigationMenuItem 
+                className="group relative max-w-none"
+                onMouseEnter={() => handleMouseEnter('about')}
+                onMouseLeave={handleMouseLeave}
+              >
                 <NavigationMenuTrigger>
                   <Link
                     to="/about"
@@ -182,27 +246,34 @@ export function Navbar() {
                     About Us
                   </Link>
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="absolute left-0 top-full z-50 mt-1 hidden min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg group-hover:flex">
+                <NavigationMenuContent 
+                  className={cn(
+                    "absolute left-0 top-full z-50 mt-1 min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg transition-opacity duration-200",
+                    openDropdown === 'about' ? "flex opacity-100" : "hidden opacity-0"
+                  )}
+                  onMouseEnter={() => handleMouseEnter('about')}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <Link
-                    to="/about/bma-at-a-glance"
+                    to="/about#glance"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     BMA at a Glance
                   </Link>
                   <Link
-                    to="/about/introduction"
+                    to="/about"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Introduction
                   </Link>
                   <Link
-                    to="/about/our-history"
+                    to="/about"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Our History
                   </Link>
                   <Link
-                    to="/about/vision-mission"
+                    to="/about#mission"
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Vision & Mission
