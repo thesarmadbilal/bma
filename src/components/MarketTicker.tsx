@@ -8,6 +8,7 @@ interface IndexData {
   current: string;
   change: number;
   currentNum: number;
+  volume: number;
 }
 
 export function MarketTicker() {
@@ -39,15 +40,22 @@ export function MarketTicker() {
               item.col_5 ||
               item.col_6 ||
               '0';
+            const volumeRaw =
+              item.volume ||
+              item.col_7 ||
+              item.col_8 ||
+              '0';
 
             return {
               symbol,
               current,
               change: parseFloat(String(changeRaw).replace(/[%,\s]/g, '')) || 0,
               currentNum: parseFloat(current.replace(/,/g, '')) || 0,
+              volume: parseFloat(String(volumeRaw).replace(/[,\s]/g, '')) || 0,
             };
           })
-          .filter((i) => i.symbol && i.currentNum > 0);
+          .filter((i) => i.symbol && i.currentNum > 0)
+          .sort((a, b) => b.volume - a.volume);
 
         if (mounted) setIndices(mapped);
       } catch (e) {
