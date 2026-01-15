@@ -30,6 +30,7 @@ export const API_ENDPOINTS = {
   KSE100: {
     EOD: () => `${getApiBaseUrl()}/kse100.php`,
     INTRADAY: () => `${getApiBaseUrl()}/kse100.php?type=intraday`,
+    CONSTITUENTS: () => `${getApiBaseUrl()}/kse100-constituents.php`,
   },
   INDICES: {
     OVERVIEW: () => `${getApiBaseUrl()}/indices.php`,

@@ -17,10 +17,10 @@ export function MarketTicker() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchIndices = async () => {
+    const fetchKSE100Constituents = async () => {
       setLoading(true);
       try {
-        const response = await fetch(API_ENDPOINTS.INDICES.OVERVIEW());
+        const response = await fetch(API_ENDPOINTS.KSE100.CONSTITUENTS());
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -44,20 +44,29 @@ export function MarketTicker() {
 
         const mappedData = data
           .filter((item) => {
-            const indexName = (item.index || item.col_0 || '').toString().trim();
+            const symbol = (item.symbol || item.col_0 || '').toString().trim();
             const current = (item.current || item.col_3 || '').toString().trim();
-            return indexName !== '' && current !== '' && current !== '0';
+            return symbol !== '' && current !== '' && current !== '0';
           })
           .map((item) => {
-            const indexName = (item.index || item.col_0 || '').toString().trim();
-            const current = (item.current || item.col_3 || '0').toString();
-            const changePercent = (item["%_change"] || item["change_(%)"] || item.col_5 || '0%').toString();
+            const symbol = (item.symbol || item.col_0 || '').toString().trim();
+            const current = (item.current || item.col_3 || item.col_4 || '0').toString();
+            // Try multiple field name variations for change percentage
+            const changePercent = (
+              item.change_percent || 
+              item['change_%'] || 
+              item.change || 
+              item.col_5 || 
+              item.col_6 || 
+              '0%'
+            ).toString();
 
+            // Extract numeric value from change percent (remove % and parse)
             const changeValue = parseFloat(changePercent.replace(/[%,\s]/g, '')) || 0;
             const currentValue = parseFloat(current.replace(/,/g, '')) || 0;
 
             return {
-              symbol: indexName,
+              symbol: symbol,
               current: current,
               change: changeValue,
               currentNum: currentValue
@@ -68,32 +77,22 @@ export function MarketTicker() {
         if (mappedData.length > 0) {
           setIndices(mappedData);
         } else {
-          console.warn("No valid indices data after mapping. Raw data sample:", data[0]);
+          console.warn("No valid KSE100 constituents data after mapping. Raw data sample:", data[0]);
           setIndices([]);
         }
       } catch (err) {
-        console.error("Error fetching market data:", err);
+        console.error("Error fetching KSE100 constituents data:", err);
         setIndices([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchIndices();
+    fetchKSE100Constituents();
   }, []);
   
   return (
     <div className={`w-full overflow-hidden glass-effect py-2 border-t border-b ${theme === 'dark' ? 'border-primary/30' : 'border-gray-200'} relative`}>
-      {/* Decorative elements */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-6 flex items-center justify-center">
-        <div className="absolute w-6 h-6 rounded-full bg-primary/10 animate-pulse"></div>
-        <Zap className="h-3 w-3 text-primary relative z-10" />
-      </div>
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 h-6 w-6 flex items-center justify-center">
-        <div className="absolute w-6 h-6 rounded-full bg-primary/10 animate-pulse"></div>
-        <Zap className="h-3 w-3 text-primary relative z-10" />
-      </div>
-      
       {loading ? (
         <div className="flex items-center justify-center py-2">
           <span className={`text-sm ${theme === 'light' ? 'text-gray-600' : 'text-muted-foreground'}`}>
@@ -146,7 +145,7 @@ export function MarketTicker() {
         }
         
         .animate-ticker {
-          animation: ticker 60s linear infinite;
+          animation: ticker ${indices.length > 50 ? '120s' : '60s'} linear infinite;
         }
         `}
       </style>
