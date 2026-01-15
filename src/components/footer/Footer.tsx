@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from '@/components/theme/ThemeProvider';
 import { FooterContact } from './FooterContact';
@@ -108,15 +109,15 @@ export const Footer = () => {
           </div>
           
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="/disclaimer" className={`text-sm ${theme === 'dark' ? 'text-muted-foreground hover:text-red-600' : 'text-gray-600 hover:text-red-700'} transition-colors`}>Disclaimer</a>
+            <Link to="/disclaimer" className={`text-sm ${theme === 'dark' ? 'text-muted-foreground hover:text-red-600' : 'text-gray-600 hover:text-red-700'} transition-colors`}>Disclaimer</Link>
             
             {/* <a href="#" className={`text-sm ${theme === 'dark' ? 'text-muted-foreground hover:text-red-600' : 'text-gray-600 hover:text-red-700'} transition-colors`}>Sitemap</a> */}
           </div>
         </div>
         
-        <div className={`mt-6 p-4 rounded-lg text-xs text-center ${theme === 'dark' ? 'bg-gray-800/50 text-gray-400' : 'bg-gray-200 text-gray-600'}`}>
+        {/* <div className={`mt-6 p-4 rounded-lg text-xs text-center ${theme === 'dark' ? 'bg-gray-800/50 text-gray-400' : 'bg-gray-200 text-gray-600'}`}>
           DISCLAIMER: Every investment in securities/commodities involves risk including the possible loss of principal amount invested. BMA Capital Management Ltd. does not guarantee any returns or profits on investments made. Past performance is not indicative of future returns.
-        </div>
+        </div> */}
         <div className="mt-6 flex justify-center"> <img src="/lovable-uploads/SECP.jpg" alt="Securities & Exchange Commission of Pakistan (SECP) Investor Complaint Banner" className="w-100 h-100" /> </div>
       </div>
     </footer>
