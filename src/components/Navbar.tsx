@@ -31,42 +31,9 @@ export function Navbar() {
           </a>
         </div>
 
-
         <div className="hidden md:flex md:flex-1">
           <NavigationMenu className="max-w-none">
             <NavigationMenuList>
-              <NavigationMenuItem className="group relative">
-                <NavigationMenuTrigger>
-                  <Link
-                    to="/investors"
-                    className="inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-                  >
-                    Investor's Corner
-                  </Link>
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="absolute left-0 top-full z-50 mt-1 hidden min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg group-hover:flex">
-                  <Link
-                    to="/investors"
-                    className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
-                  >
-                    Investor Guide
-                  </Link>
-                  <Link
-                    to="/glossary"
-                    className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
-                  >
-                    Glossary
-                  </Link>
-                  <Link
-                    to="/faqs"
-                    className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
-                  >
-                    FAQs
-                  </Link>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              
-
               {/* Business Activities Dropdown */}
               <NavigationMenuItem className="group relative max-w-none">
                 <NavigationMenuTrigger>
@@ -169,6 +136,38 @@ export function Navbar() {
                     className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Press Releases JCR-VIS
+                  </Link>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              {/* Investor's Corner Dropdown */}
+              <NavigationMenuItem className="group relative">
+                <NavigationMenuTrigger>
+                  <Link
+                    to="/investors"
+                    className="inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                  >
+                    Investor's Corner
+                  </Link>
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="absolute left-0 top-full z-50 mt-1 hidden min-w-[200px] flex-col space-y-1 rounded-md border bg-white p-2 text-black shadow-lg group-hover:flex">
+                  <Link
+                    to="/investors"
+                    className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+                  >
+                    Investor Guide
+                  </Link>
+                  <Link
+                    to="/glossary"
+                    className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+                  >
+                    Glossary
+                  </Link>
+                  <Link
+                    to="/faqs"
+                    className="block rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+                  >
+                    FAQs
                   </Link>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -297,13 +296,13 @@ export function Navbar() {
             </div>
             <div className="space-y-1">
               <Button variant="ghost" className="w-full justify-start" asChild>
-                <Link to="/investors">Investor's Corner</Link>
-              </Button>
-              <Button variant="ghost" className="w-full justify-start" asChild>
                 <Link to="/business-activities">Business Activities</Link>
               </Button>
               <Button variant="ghost" className="w-full justify-start" asChild>
                 <Link to="/governance">Governance</Link>
+              </Button>
+              <Button variant="ghost" className="w-full justify-start" asChild>
+                <Link to="/investors">Investor's Corner</Link>
               </Button>
               <Button variant="ghost" className="w-full justify-start" asChild>
                 <Link to="/about">About Us</Link>
